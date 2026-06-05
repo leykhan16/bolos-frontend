@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: 'http://localhost:8080/api'
+  baseURL: 'https://bolos-api-production.up.railway.app/api'
 })
 
 export const getServices = () => api.get('/services')
