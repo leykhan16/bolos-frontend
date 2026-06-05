@@ -2,13 +2,13 @@ import { useState } from 'react'
 import Services from './pages/Services'
 import Booking from './pages/Booking'
 import Contact from './pages/Contact'
+import Admin from './pages/Admin'
 
 export default function App() {
   const [page, setPage] = useState('home')
 
   return (
     <div>
-      {/* ── NAV ── */}
       <nav style={nav.bar}>
         <div style={nav.logo}>
           BOLOS
@@ -24,14 +24,20 @@ export default function App() {
               {p === 'booking' ? 'Book Now' : p.charAt(0).toUpperCase() + p.slice(1)}
             </button>
           ))}
+          <button
+            onClick={() => setPage('admin')}
+            style={{ ...nav.btn, ...(page === 'admin' ? nav.btnActive : {}), fontSize:'12px', opacity:.6 }}
+          >
+            Admin
+          </button>
         </div>
       </nav>
 
-      {/* ── PAGES ── */}
       {page === 'home'     && <Home setPage={setPage} />}
       {page === 'services' && <Services />}
       {page === 'booking'  && <Booking />}
       {page === 'contact'  && <Contact />}
+      {page === 'admin'    && <Admin />}
     </div>
   )
 }
@@ -39,7 +45,6 @@ export default function App() {
 function Home({ setPage }) {
   return (
     <div>
-      {/* Hero */}
       <div style={hero.wrap}>
         <div style={hero.overlay} />
         <div style={hero.content} className="fade-up">
@@ -51,8 +56,6 @@ function Home({ setPage }) {
             <button style={hero.btnOutline} onClick={() => setPage('services')}>View Services</button>
           </div>
         </div>
-
-        {/* Stats bar */}
         <div style={hero.stats}>
           {[['2,400+','Jobs Completed'],['8 yrs','In Business'],['100%','Safe Chemicals'],['24h','Response Time']].map(([val, label]) => (
             <div key={label} style={hero.stat}>
@@ -63,7 +66,6 @@ function Home({ setPage }) {
         </div>
       </div>
 
-      {/* Why us */}
       <div style={section.wrap}>
         <p style={section.label}>Why Choose Us</p>
         <h2 style={section.title}>The Bolos Difference</h2>
@@ -86,13 +88,12 @@ function Home({ setPage }) {
   )
 }
 
-/* ── Styles ── */
 const nav = {
   bar:     { background:'var(--dark)', padding:'0 5%', display:'flex', alignItems:'center', justifyContent:'space-between', height:'60px', position:'sticky', top:0, zIndex:100 },
   logo:    { color:'var(--gold-light)', fontFamily:"'Bebas Neue',sans-serif", fontSize:'20px', lineHeight:1, display:'flex', flexDirection:'column' },
   logoSub: { fontFamily:"'DM Sans',sans-serif", fontSize:'10px', color:'#8a9e8c', letterSpacing:'2px', textTransform:'uppercase', fontWeight:500 },
   links:   { display:'flex', gap:'8px' },
-  btn:     { background:'none', border:'none', color:'#c8d8ca', cursor:'pointer', fontSize:'13px', fontWeight:500, padding:'8px 14px', borderRadius:'4px', fontFamily:"'DM Sans',sans-serif", transition:'all .2s' },
+  btn:     { background:'none', border:'none', color:'#c8d8ca', cursor:'pointer', fontSize:'13px', fontWeight:500, padding:'8px 14px', borderRadius:'4px', fontFamily:"'DM Sans',sans-serif" },
   btnActive: { background:'var(--green)', color:'#fff' },
 }
 
@@ -114,7 +115,7 @@ const hero = {
 
 const section = {
   wrap:  { padding:'60px 5%', maxWidth:'1100px', margin:'0 auto' },
-  label: { fontSize:'11px', fontWeight:700, letterSpacing:'2px', color:'var(--gold)', textTransform:'uppercase', marginBottom:'8px' },
+  label: { fontSize:'11px', fontWeight:700, letterSpacing:'2px', color:'var(--gold)', textTransform:'uppercase', marginBottom:'8px', display:'block' },
   title: { fontSize:'clamp(28px,4vw,44px)', color:'var(--dark)' },
 }
 
