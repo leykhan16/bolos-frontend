@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --green: #1a5c2e;
+  --green-light: #2a7a3e;
+  --green-pale: #e8f5ec;
+  --gold: #c8922a;
+  --gold-light: #f0b940;
+  --dark: #111a13;
+  --text: #1e2d20;
+  --muted: #5a6e5d;
+  --border: #d4e0d6;
+  --white: #fff;
+  --bg: #f7faf7;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 1px;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.fade-up  { animation: fadeUp 0.5s ease forwards; }
+.fade-in  { animation: fadeIn 0.4s ease forwards; }
