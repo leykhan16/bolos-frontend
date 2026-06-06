@@ -6,38 +6,80 @@ import Admin from './pages/Admin'
 
 export default function App() {
   const [page, setPage] = useState('home')
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  // 💡 Admin is accessed by typing /admin in the URL bar
+  // We detect it from the hash instead of showing it in nav
+  const isAdmin = window.location.hash === '#/admin'
+
+  if (isAdmin) return <Admin />
+
+  const navItems = ['home', 'services', 'booking', 'contact']
+
+  function goTo(p) {
+    setPage(p)
+    setMenuOpen(false)
+  }
 
   return (
     <div>
+      {/* ── NAV ── */}
       <nav style={nav.bar}>
         <div style={nav.logo}>
           BOLOS
           <span style={nav.logoSub}>Fumigation & Pest Control</span>
         </div>
-        <div style={nav.links}>
-          {['home','services','booking','contact'].map(p => (
+
+        {/* Desktop links */}
+        <div style={nav.links} className="desktop-nav">
+          {navItems.map(p => (
             <button
               key={p}
-              onClick={() => setPage(p)}
+              onClick={() => goTo(p)}
               style={{ ...nav.btn, ...(page === p ? nav.btnActive : {}) }}
             >
               {p === 'booking' ? 'Book Now' : p.charAt(0).toUpperCase() + p.slice(1)}
             </button>
           ))}
-          <button
-            onClick={() => setPage('admin')}
-            style={{ ...nav.btn, ...(page === 'admin' ? nav.btnActive : {}), fontSize:'12px', opacity:.6 }}
-          >
-            Admin
-          </button>
         </div>
+
+        {/* Mobile hamburger */}
+        <button style={nav.burger} className="burger-btn" onClick={() => setMenuOpen(!menuOpen)}>
+          {menuOpen ? '✕' : '☰'}
+        </button>
       </nav>
 
-      {page === 'home'     && <Home setPage={setPage} />}
+      {/* Mobile dropdown menu */}
+      {menuOpen && (
+        <div style={nav.mobileMenu} className="mobile-menu">
+          {navItems.map(p => (
+            <button
+              key={p}
+              onClick={() => goTo(p)}
+              style={{ ...nav.mobileBtn, ...(page === p ? nav.mobileBtnActive : {}) }}
+            >
+              {p === 'booking' ? 'Book Now' : p.charAt(0).toUpperCase() + p.slice(1)}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* ── PAGES ── */}
+      {page === 'home'     && <Home setPage={goTo} />}
       {page === 'services' && <Services />}
       {page === 'booking'  && <Booking />}
       {page === 'contact'  && <Contact />}
-      {page === 'admin'    && <Admin />}
+
+      {/* Footer */}
+      <footer style={footer}>
+        <strong style={{ color:'var(--gold-light)', fontFamily:"'Bebas Neue',sans-serif", fontSize:'16px' }}>
+          BOLOS FUMIGATION & PEST CONTROL
+        </strong>
+        <p style={{ marginTop:'6px', fontSize:'13px' }}>© 2025 · Licensed & Insured · All Rights Reserved</p>
+        <p style={{ fontSize:'11px', marginTop:'4px', opacity:.5 }}>
+          Admin access: add <code>#/admin</code> to the URL
+        </p>
+      </footer>
     </div>
   )
 }
@@ -88,13 +130,19 @@ function Home({ setPage }) {
   )
 }
 
+/* ── Styles ── */
 const nav = {
   bar:     { background:'var(--dark)', padding:'0 5%', display:'flex', alignItems:'center', justifyContent:'space-between', height:'60px', position:'sticky', top:0, zIndex:100 },
   logo:    { color:'var(--gold-light)', fontFamily:"'Bebas Neue',sans-serif", fontSize:'20px', lineHeight:1, display:'flex', flexDirection:'column' },
   logoSub: { fontFamily:"'DM Sans',sans-serif", fontSize:'10px', color:'#8a9e8c', letterSpacing:'2px', textTransform:'uppercase', fontWeight:500 },
-  links:   { display:'flex', gap:'8px' },
+  links:   { display:'flex', gap:'8px', '@media(maxWidth:600px)': { display:'none' } },
   btn:     { background:'none', border:'none', color:'#c8d8ca', cursor:'pointer', fontSize:'13px', fontWeight:500, padding:'8px 14px', borderRadius:'4px', fontFamily:"'DM Sans',sans-serif" },
   btnActive: { background:'var(--green)', color:'#fff' },
+  burger:  { display:'none', background:'none', border:'none', color:'#fff', fontSize:'22px', cursor:'pointer',
+             '@media(maxWidth:600px)': { display:'block' } },
+  mobileMenu: { background:'var(--dark)', display:'flex', flexDirection:'column', borderTop:'1px solid rgba(255,255,255,.08)' },
+  mobileBtn:  { background:'none', border:'none', color:'#c8d8ca', padding:'16px 5%', fontSize:'15px', fontWeight:500, cursor:'pointer', fontFamily:"'DM Sans',sans-serif", textAlign:'left', borderBottom:'1px solid rgba(255,255,255,.06)' },
+  mobileBtnActive: { background:'var(--green)', color:'#fff' },
 }
 
 const hero = {
@@ -107,17 +155,17 @@ const hero = {
   sub:       { color:'#8a9e8c', fontSize:'15px', maxWidth:'480px' },
   btnPrimary:{ background:'var(--green)', color:'#fff', border:'none', padding:'13px 28px', borderRadius:'4px', fontSize:'14px', fontWeight:600, cursor:'pointer', fontFamily:"'DM Sans',sans-serif" },
   btnOutline:{ background:'transparent', color:'var(--gold-light)', border:'1.5px solid var(--gold)', padding:'12px 28px', borderRadius:'4px', fontSize:'14px', fontWeight:600, cursor:'pointer', fontFamily:"'DM Sans',sans-serif" },
-  stats:     { display:'flex', gap:'32px', flexWrap:'wrap', background:'rgba(0,0,0,.3)', padding:'20px 0', marginTop:'40px', borderTop:'1px solid rgba(255,255,255,.08)', position:'relative', zIndex:1 },
+  stats:     { display:'flex', gap:'24px', flexWrap:'wrap', background:'rgba(0,0,0,.3)', padding:'20px 0', marginTop:'40px', borderTop:'1px solid rgba(255,255,255,.08)', position:'relative', zIndex:1 },
   stat:      { display:'flex', flexDirection:'column' },
   statVal:   { fontSize:'28px', fontFamily:"'Bebas Neue',sans-serif", color:'var(--gold-light)' },
   statLabel: { fontSize:'12px', color:'#8a9e8c', letterSpacing:'.5px' },
 }
 
-const section = {
+const section    = {
   wrap:  { padding:'60px 5%', maxWidth:'1100px', margin:'0 auto' },
   label: { fontSize:'11px', fontWeight:700, letterSpacing:'2px', color:'var(--gold)', textTransform:'uppercase', marginBottom:'8px', display:'block' },
   title: { fontSize:'clamp(28px,4vw,44px)', color:'var(--dark)' },
 }
-
 const featureCard = { background:'var(--white)', border:'1px solid var(--border)', borderRadius:'10px', padding:'24px' }
 const featureIcon = { fontSize:'32px', marginBottom:'14px' }
+const footer      = { background:'var(--dark)', color:'#8a9e8c', textAlign:'center', padding:'32px 5%', marginTop:'60px' }

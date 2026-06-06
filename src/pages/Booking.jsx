@@ -59,7 +59,7 @@ export default function Booking() {
 
       <div style={formCard}>
         <form onSubmit={handleSubmit}>
-          <div style={grid}>
+          <div style={grid} className="form-grid-2col">
             <div style={group}>
               <label style={labelEl}>Full Name *</label>
               <input style={input} name="full_name" placeholder="John Mensah" value={form.full_name} onChange={handleChange} />
