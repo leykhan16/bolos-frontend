@@ -56,3 +56,9 @@ h1, h2, h3 {
   .burger-btn    { display: none !important; }
   .mobile-menu   { display: none !important; }
 }
+
+@media (max-width: 640px) {
+  .contact-grid-fix {
+    grid-template-columns: 1fr !important;
+  }
+}
