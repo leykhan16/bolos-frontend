@@ -74,7 +74,7 @@ function Home({ setPage }) {
         <div style={hero.content} className="fade-up">
           <span style={hero.tag}>Lagos, Nigeria - Licensed and Certified</span>
           <h1 style={hero.title}>SILENCE PEST,<br /><span style={hero.gold}>AMPLIFY PEACE.</span><br />THE BOLOS WAY.</h1>
-          <p style={hero.sub}>Fast, effective, and long-lasting pest control for homes, offices, and commercial properties across Lagos.</p>
+          <p style={hero.sub}>Fast, effective, and long-lasting pest control for homes, offices, and commercial properties across Nigeria.</p>
           <div style={{ display:'flex', gap:'12px', flexWrap:'wrap', marginTop:'8px' }}>
             <button style={hero.btnPrimary} onClick={() => setPage('booking')}>Book an Inspection</button>
             <button style={hero.btnOutline} onClick={() => setPage('services')}>View Services</button>
